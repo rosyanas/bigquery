@@ -18,5 +18,6 @@ from
 `table*`
 WHERE event_name in ('event_name3','event_name3','event_name4');
 ```
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+
+### _TABLE_SUFFIX
+### _TABLE_DATE_RANGE
