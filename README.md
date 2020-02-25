@@ -3,6 +3,7 @@ all about Query in BigQuery
 
 ### UNNEST
 ```
+SQL
 select TIMESTAMP_MICROS(event_timestamp) as Date_Action, 
 user_id, event_name, event.value.string_value
 from
@@ -17,3 +18,5 @@ from
 `table*`
 WHERE event_name in ('event_name3','event_name3','event_name4');
 ```
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
