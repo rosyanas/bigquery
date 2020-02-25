@@ -9,5 +9,5 @@ WHERE event_name in ('PriceEngine_Result_Button_Jual','PriceEngine_Result_Button
 union all
 select TIMESTAMP_MICROS(event_timestamp) as Date_Action, user_id, event_name, 'motor'
 from
-`firebase-sumo365.analytics_151119988.events_*`
+`table*`
 WHERE event_name in ('SmartInspection_Result_Button_Jual','bt_jubel_valuation_clicked','loan_clicked');```
