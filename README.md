@@ -3,7 +3,7 @@ Here is my historical Query
 ## Table of contents
 - [UNNEST](#UNNEST)
 - [TABLE SUFFIX](#TABLE-SUFFIX)
-- [table date range](#TABLE-DATE-RANGE)
+- [References](#References)
 
 ## UNNEST
 ```
@@ -29,7 +29,8 @@ WHERE _TABLE_SUFFIX like '201707%' AND event.name = 'app_remove'
 ORDER BY time ASC;
 ```
 If the clause where we change into `... WHERE _TABLE_SUFFIX = 'app_remove' and event.date like '201707%' ...` cannot be processed because the partition dataset per day is not per event_name.
-Another example you can [explore](https://cloud.google.com/bigquery/docs/querying-wildcard-tables):
+
+Another example you can explore:
 ```
 SELECT concat(year,mo,da) as date, avg(temp) as avgtemp, sum(count_temp) as observations
 FROM `bigquery-public-data.noaa_gsod.gsod20*`
@@ -38,3 +39,7 @@ GROUP BY date ORDER BY date;
 ```
 
 ## TABLE DATE RANGE
+
+## References
+- [`unnest`](https://cloud.google.com/bigquery/docs/reference/standard-sql/aggregate_functions)
+- [`_table_suffix`](https://cloud.google.com/bigquery/docs/querying-wildcard-tables)
