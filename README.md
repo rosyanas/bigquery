@@ -1,11 +1,11 @@
 # bigquery
 Here is my historical Query
 ## Table of contents
-- [unnest](#UNNEST)
-- [table suffix] (#TABLE-SUFFIX)
-- [table date range] (#TABLE DATE RANGE)
+- [UNNEST](#UNNEST)
+- [TABLE SUFFIX](#TABLE-SUFFIX)
+- [table date range](#TABLE-DATE-RANGE)
 
-# UNNEST
+## UNNEST
 ```
 select TIMESTAMP_MICROS(event_timestamp) as Date_Action, user_id, event_name, event.value.string_value
 from `table*`,
@@ -16,9 +16,8 @@ select TIMESTAMP_MICROS(event_timestamp) as Date_Action, user_id, event_name, 'm
 from `table*`
 WHERE event_name in ('event_name3','event_name3','event_name4');
 ```
-don't forget to use "," after call table before unnest
 
-# TABLE SUFFIX
+## TABLE SUFFIX
 ```
 select user_dim.user_id as user,
        TIMESTAMP_MICROS(event.timestamp_micros) as time,
@@ -29,18 +28,13 @@ UNNEST(event_dim) as event
 WHERE _TABLE_SUFFIX like '201707%' AND event.name = 'app_remove'
 ORDER BY time ASC;
 ```
-
-If the clause where we change into 
+If the clause where we change into `... WHERE _TABLE_SUFFIX = 'app_remove' and event.date like '201707%' ...` cannot be processed because the partition dataset per day is not per event_name.
+Another example you can [explore](https://cloud.google.com/bigquery/docs/querying-wildcard-tables):
 ```
-select user_dim.user_id as user,
-       TIMESTAMP_MICROS(event.timestamp_micros) as time,
-       event.date as event_date,
-       event.name as event_name
-from `table*`,
-UNNEST(event_dim) as event
-WHERE _TABLE_SUFFIX = 'app_remove' and event.date like '201707%'
-ORDER BY time ASC;
+SELECT concat(year,mo,da) as date, avg(temp) as avgtemp, sum(count_temp) as observations
+FROM `bigquery-public-data.noaa_gsod.gsod20*`
+WHERE _TABLE_SUFFIX = '01' OR _TABLE_SUFFIX = '10'
+GROUP BY date ORDER BY date;
 ```
-Cannot be processed because the partition dataset per day is not per event_name
 
-### `_TABLE_DATE_RANGE`
+## TABLE DATE RANGE
