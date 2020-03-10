@@ -15,5 +15,28 @@ WHERE event_name in ('event_name3','event_name3','event_name4');
 don't forget to use "," after call table before unnest
 
 ### `_TABLE_SUFFIX`
+```
+select user_dim.user_id as user,
+       TIMESTAMP_MICROS(event.timestamp_micros) as time,
+       event.date as event_date,
+       event.name as event_name
+from `table*`,
+UNNEST(event_dim) as event
+WHERE _TABLE_SUFFIX like '201707%' AND event.name = 'app_remove'
+ORDER BY time ASC;
+```
+
+If the clause where we change into 
+```
+select user_dim.user_id as user,
+       TIMESTAMP_MICROS(event.timestamp_micros) as time,
+       event.date as event_date,
+       event.name as event_name
+from `table*`,
+UNNEST(event_dim) as event
+WHERE _TABLE_SUFFIX = 'app_remove' and event.date like '201707%'
+ORDER BY time ASC;
+```
+Cannot be processed because the partition dataset per day is not per event_name
 
 ### `_TABLE_DATE_RANGE`
