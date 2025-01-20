@@ -16,6 +16,30 @@ select TIMESTAMP_MICROS(event_timestamp) as Date_Action, user_id, event_name, 'm
 from `table*`
 WHERE event_name in ('event_name3','event_name3','event_name4');
 ```
+another example
+```select d.*,
+    case when product_sku like '%-vial' then REPLACE(product_sku,'-vial','')
+    when product_sku like '%-OLMORVA' then REPLACE(product_sku,'-OLMORVA','')
+    else product_sku end as product_sku
+    from
+      (select c.*,
+      split(ecommerce_sku, ', ') as sku
+      from
+        (select a.*, case when a.ecommerce_product_sku like '%, 2' then REPLACE(a.ecommerce_product_sku,', 2','')
+        when a.ecommerce_product_sku=REPLACE(b.sku_,'_',', ') then sku_induk
+        else a.ecommerce_product_sku end as ecommerce_sku,
+        dense_rank() over(partition by username order by date_paid, order_ecommerce_id) as order_ke
+        from `oceanic-hash-232011.base.raw_ecommerce` a
+        left join `oceanic-hash-232011.data_sources_external.virtual_bundle` b
+          on a.ecommerce_product_sku=REPLACE(b.SKU_,'_',', ')
+        --for random checking buka filter dibawah ini
+        --where order_ecommerce_id='SP-230909V7Q868B2'
+        where a.date_paid is not null
+        ) c
+      where order_ecommerce_id is not null
+      ) d
+    cross join UNNEST (sku) as product_sku
+```
 
 ## TABLE SUFFIX
 ```
